@@ -1,5 +1,8 @@
-#from Helpers import *
+'''
+Created on Jun 8, 2014
 
+@author: mack
+'''
 class Level(object):
     lvlMap = []
     images = []

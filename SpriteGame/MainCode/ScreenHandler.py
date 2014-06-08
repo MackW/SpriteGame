@@ -1,3 +1,9 @@
+'''
+Created on Jun 8, 2014
+
+@author: mack
+'''
+
 import os
 import pygame
 from pygame.locals import RLEACCEL
@@ -64,20 +70,16 @@ def load_single_image_from_tile(filename, index,width,height):
     amountPerRow=image_width/width
     row=index // amountPerRow
     column=index % amountPerRow
-    rect = (row*width, column*height, 32, 32)
+    rect = (column*width, row*height, 32, 32)
     image=masterimage.subsurface(rect)
-    #colorkey = image.get_at((0,0))
-    #image.set_colorkey(colorkey, RLEACCEL) 
     return image
 
 def draw_screen(levels,iLevel,xPosition):
     surf=pygame.Surface((1056,768))
-    surf.set_clip(None)
-    for iY in xrange(0,25):
-        for iX in xrange(0,34):
-            #print str(iX) + ' : ' +str(iY)
+    for iY in xrange(0,24):
+        for iX in xrange(0,33):
             tmpLvl=levels[iLevel]
-            imgDisp = tmpLvl.getImage(iY,iX+xPosition)
+            imgDisp = tmpLvl.getImage(iY,iX+(xPosition//32))
             rec=pygame.Rect(iX*32,iY*32,32,32)
             surf.blit(imgDisp,rec)
     return surf

@@ -10,6 +10,10 @@ from Level0 import *
 
 class ScreenDrawer:
     levelsContainer=[]
+    iCurrentLevel=0
+    xPosition=0
+    scrollSpeed=4  #pixels per movement
+    FPS=50
     def Main(self):
         pygame.init()
         self.screen = pygame.display.set_mode((1024, 768))
@@ -20,10 +24,19 @@ class ScreenDrawer:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: 
                     sys.exit()
-            surf=draw_screen(self.levelsContainer,0,0)
-            self.screen.blit(surf,surf.get_rect())
+                elif event.type == KEYDOWN:
+                    if event.key == K_LEFT:
+                        if self.xPosition>0:
+                            self.xPosition=self.xPosition -self.scrollSpeed
+                    if event.key == K_RIGHT:   
+                        if self.xPosition<self.levelsContainer[self.iCurrentLevel].xSize:
+                            self.xPosition=self.xPosition +self.scrollSpeed
+            surf=draw_screen(self.levelsContainer,self.iCurrentLevel,self.xPosition)
+            rct=surf.get_rect()
+            rct.left=-(self.xPosition%32)
+            self.screen.blit(surf,rct)
             pygame.display.flip()
-            clock.tick(25)
+            clock.tick(self.FPS)
 
 
 if __name__ == '__main__':
