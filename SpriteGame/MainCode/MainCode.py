@@ -20,6 +20,11 @@ class ScreenDrawer:
         pygame.key.set_repeat(1, 1)
         self.levelsContainer.append(AddLevel0())
         clock=pygame.time.Clock()
+        surf=pygame.Surface((1024,768))
+        DrawTextToSurface(surf,72,'Looks Like you need a kip dude',512,384,(255,255,255),False,0,True)
+        self.screen.blit(surf,surf.get_rect())
+        surfGame=draw_screen(self.levelsContainer,self.iCurrentLevel,self.xPosition)
+        transition(self.screen,surfGame,surf,5,self.FPS)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: 

@@ -4,9 +4,10 @@ Created on Jun 8, 2014
 @author: mack
 '''
 
-import os
+import os,sys
 import pygame
-from pygame.locals import RLEACCEL
+from pygame.locals import *
+from time import time
     
 def load_image(name, colorkey=None):
     fullname = os.path.join('', 'Images')
@@ -84,6 +85,45 @@ def draw_screen(levels,iLevel,xPosition):
             surf.blit(imgDisp,rec)
     return surf
             
-    
-    
-    
+def transition(screen,surface1,surface2,duration,FPS):
+    step = 255.0/(duration*FPS)
+    alpha1 = 0
+    alpha2 =255
+    clock=pygame.time.Clock()
+    last_time = time()
+    while time()<last_time+duration:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: 
+                sys.exit()
+        surface1.set_alpha(alpha1)
+        surface2.set_alpha(alpha2)
+        screen.blit(surface1,surface1.get_rect())
+        screen.blit(surface2,surface2.get_rect())
+        pygame.display.flip()
+        alpha1=alpha1+step
+        alpha2=alpha2-step
+        clock.tick(FPS)
+        
+def DrawTextToScreen(screen,fontsize,msg,x,y,colour,overWrite,overWriteColour,useCenter,updatescreen):
+    #routine to allow Text to be drawn to the screen
+    font = pygame.font.Font(None, fontsize) 
+    text = font.render(msg, 1, colour)   
+    if useCenter==True:
+        textpos = text.get_rect(centerx=x,centery=y)
+    else:                            
+        textpos = text.get_rect(x=x,y=y)
+    if overWrite==True : screen.fill(overWriteColour, textpos)   
+    screen.blit(text, textpos)
+    if updatescreen==True:
+        pygame.display.flip()  
+          
+def DrawTextToSurface(surface,fontsize,msg,x,y,colour,overWrite,overWriteColour,useCenter):
+    #routine to allow Text to be drawn to the screen
+    font = pygame.font.Font(None, fontsize) 
+    text = font.render(msg, 1, colour)   
+    if useCenter==True:
+        textpos = text.get_rect(centerx=x,centery=y)
+    else:                            
+        textpos = text.get_rect(x=x,y=y)
+    if overWrite==True : surface.fill(overWriteColour, textpos)   
+    surface.blit(text, textpos)
