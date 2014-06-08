@@ -57,14 +57,29 @@ def load_tile_table(filename, width, height):
             tile_table.append(image)
     return tile_table
 
+def load_single_image_from_tile(filename, index,width,height):
+    filename = os.path.join('Images',filename)
+    masterimage = pygame.image.load(filename).convert()
+    image_width, image_height = masterimage.get_size()
+    amountPerRow=image_width/width
+    row=index // amountPerRow
+    column=index % amountPerRow
+    rect = (row*width, column*height, 32, 32)
+    image=masterimage.subsurface(rect)
+    #colorkey = image.get_at((0,0))
+    #image.set_colorkey(colorkey, RLEACCEL) 
+    return image
 
 def draw_screen(levels,iLevel,xPosition):
-    surf=pygame.Surface(1056,768)
+    surf=pygame.Surface((1056,768))
     surf.set_clip(None)
-    for iX in xrange(0,34):
-        for iY in xrange(0,25):
-            imgDisp = levels[iLevel].getImage[iX+xPosition,iY]
-            surf.blit(imgDisp,pygame.Rect(x=iX*32,y=iY*32,width=32,height=32))
+    for iY in xrange(0,25):
+        for iX in xrange(0,34):
+            #print str(iX) + ' : ' +str(iY)
+            tmpLvl=levels[iLevel]
+            imgDisp = tmpLvl.getImage(iY,iX+xPosition)
+            rec=pygame.Rect(iX*32,iY*32,32,32)
+            surf.blit(imgDisp,rec)
     return surf
             
     

@@ -1,4 +1,4 @@
-from Helpers import *
+#from Helpers import *
 
 class Level(object):
     lvlMap = []
@@ -9,5 +9,8 @@ class Level(object):
     def getImage(self,iX,iY):
         return self.images[self.lvlMap[iX][iY]]
     
-    def addImage(self,imgName):
+    def addImageByFileName(self,imgName):
         self.images.append(load_image('Brick-red.png',-1))
+
+    def addImage(self,img):
+        self.images.append(img)
